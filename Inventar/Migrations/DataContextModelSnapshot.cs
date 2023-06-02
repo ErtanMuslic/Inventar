@@ -31,6 +31,7 @@ namespace Inventar.Migrations
                     b.Property<int>("Duzina")
                         .HasColumnType("int");
 
+
                     b.Property<string>("Naziv")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
