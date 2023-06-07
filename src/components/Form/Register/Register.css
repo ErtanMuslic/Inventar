@@ -1,0 +1,21 @@
+#registerID {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image:  url("https://cdn.wallpapersafari.com/80/94/AC21PJ.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+section {
+    background-color: white;
+    padding: 0px 60px;
+    border-radius: 10px;
+}
+
+.register {
+    color: #6600FF;
+    text-align: center;
+    font-size: 5vh;
+}
