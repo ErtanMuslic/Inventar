@@ -1,16 +1,31 @@
-﻿namespace Inventar.Models
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace Inventar.Models
 {
+    [BsonIgnoreExtraElements]
     public class Inventari
     {
-        public Guid Id { get; set; }
-        public string Naziv { get; set; }
-        public int SerijskiBroj { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = String.Empty;
+
+        [BsonElement("name")]
+        public string Naziv { get; set; } = String.Empty;
+
+        [BsonElement("serialNumber")]
+        public int SerijskiBroj { get; set; } 
 
 
         //Moze da ima
-        public string Marka { get; set; }
-        public string Model { get; set; }
-        public int Cena { get; set; }
+        [BsonElement("brand")]
+        public string Marka { get; set; } = String.Empty;
+
+        [BsonElement("model")]
+        public string Model { get; set; } = String.Empty;
+
+        [BsonElement("price")]
+        public int Cena { get; set; } 
 
     }
 }
