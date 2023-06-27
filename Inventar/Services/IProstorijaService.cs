@@ -1,13 +1,14 @@
 ﻿using Inventar.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Inventar.Services
 {
     public interface IProstorijaService
     {
         List<Prostorija> Get();
-        Prostorija Get(string id);
+        Prostorija Get(Guid id);
         Prostorija Create(Prostorija prostorija);
-        void Update(string id,Prostorija prostorija);
-        void Delete(string id);
+        void Update();
+        void Delete(Prostorija prostorija);
     }
 }

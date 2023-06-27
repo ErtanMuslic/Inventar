@@ -1,43 +1,53 @@
-﻿using Inventar.Models;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿//using Inventar.Models;
+//using Inventar.Persistance;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.Extensions.Options;
+////using MongoDB.Driver;
 
-namespace Inventar.Services
-{
-    public class ProstorijaService : IProstorijaService
-    {
-        private readonly IMongoCollection<Prostorija> _premises;
+//namespace Inventar.Services
+//{
+//    public class ProstorijaService : IProstorijaService
+//    {
+//        //private readonly IMongoCollection<Prostorija> _premises;
+//        private readonly DataContext _context;
 
-        public ProstorijaService(IInventarDatabaseSettings settings,IMongoClient mongoClient) 
-        {
-            var database = mongoClient.GetDatabase(settings.DatabaseName);
-            _premises = database.GetCollection<Prostorija>(settings.InventarCollectionName);
-        }
 
-        public Prostorija Create(Prostorija prostorija)
-        {
-           _premises.InsertOne(prostorija);
-            return prostorija;
-        }
+//        public ProstorijaService(DataContext context)
+//        {
+//            _context = context;
+//        }
+//        //public ProstorijaService(IInventarDatabaseSettings settings,IMongoClient mongoClient) 
+//        //{
+//        //    var database = mongoClient.GetDatabase(settings.DatabaseName);
+//        //    _premises = database.GetCollection<Prostorija>(settings.InventarCollectionName);
+//        //}
 
-        public void Delete(string id)
-        {
-            _premises.DeleteOne(prostorija => prostorija.Id == id);
-        }
+//        public Prostorija Create(Prostorija prostorija)
+//        {
+//            _context.Add(prostorija);
+//            return prostorija;
+            
+//        }
 
-        public List<Prostorija> Get()
-        {
-           return _premises.Find(prostorija => true).ToList();
-        }
+//        public void Delete(Prostorija prostorija)
+//        {
+//            _context.Prostorijas.Remove(prostorija); 
+//        }
 
-        public Prostorija Get(string id)
-        {
-            return _premises.Find(prostorija => prostorija.Id == id).FirstOrDefault();
-        }
+//        public async Task<ActionResult<List<Prostorija>>> Get()
+//        {
+//            return await _context.Prostorijas.ToListAsync();
+//        }
 
-        public void Update(string id, Prostorija prostorija)
-        {
-            _premises.ReplaceOne(prostorija => prostorija.Id == id,prostorija);
-        }
-    }
-}
+//        public Prostorija Get(Guid id)
+//        {
+//            return  _context.Prostorijas.Find(id);
+//        }
+
+//        public void Update()
+//        {
+//            _context.SaveChangesAsync();
+//        }
+//    }
+//}

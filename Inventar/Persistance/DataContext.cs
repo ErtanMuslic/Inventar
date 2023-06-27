@@ -6,22 +6,21 @@ namespace Inventar.Persistance
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
 
         protected DataContext()
         {
-            //Salje Modele
            
         }
 
-        public DbSet<Inventari> inventars { get; set; }
+        public DbSet<Inventari> Inventars { get; set; }
 
-        public DbSet<Radnici> radnicis { get; set; }
+        public DbSet<Radnici> Radnicis { get; set; }
 
-        public DbSet<Prostorija> prostorijas { get; set; }
+        public DbSet<Prostorija> Prostorijas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

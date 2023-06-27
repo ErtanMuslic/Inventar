@@ -1,7 +1,9 @@
 ﻿using Inventar.Models;
+using Inventar.Persistance;
 using Inventar.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventar.Controllers
 {
@@ -9,23 +11,24 @@ namespace Inventar.Controllers
     [ApiController]
     public class ProstorijaController : ControllerBase
     {
-        private readonly IProstorijaService prostorijaService;
+        private readonly DataContext _context;
 
-        public ProstorijaController(IProstorijaService prostorijaService) {
-            this.prostorijaService = prostorijaService;
+
+        public ProstorijaController(DataContext context) {
+            _context = context;
         }
 
 
         [HttpGet]
-        public ActionResult<List<Prostorija>> Get()
+        public async Task<ActionResult<List<Prostorija>>> Get()
         {
-            return prostorijaService.Get();
+            return Ok(await _context.Prostorijas.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Prostorija> Get(string id)
+        public async Task<ActionResult<Prostorija>> Get(string id)
         {
-            var prostorija = prostorijaService.Get(id);
+            var prostorija = await _context.Prostorijas.FindAsync(id);
 
             if(prostorija == null)
             {
@@ -36,39 +39,47 @@ namespace Inventar.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Prostorija> Create([FromBody] Prostorija prostorija)
+        public async Task<ActionResult<Prostorija>> Create([FromBody] Prostorija prostorija)
         {
-            prostorijaService.Create(prostorija);
-            return CreatedAtAction(nameof(Get),new {id = prostorija.Id},prostorija);
+            _context.Add(prostorija);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Prostorijas.ToListAsync());
+            //return CreatedAtAction(nameof(Get),new {id = prostorija.Id},prostorija);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Prostorija prostorija)
+        public async Task<ActionResult> Put([FromBody] Prostorija prostorija)
         {
-            var existingProstorija = prostorijaService.Get(id);
+            var existingProstorija = await _context.Prostorijas.FindAsync(prostorija.Id);
 
             if(existingProstorija == null)
             {
-                return NotFound($"Room with id:{id} no found");
+                return NotFound($"Room with id:{prostorija.Id} no found");
             }
 
-            prostorijaService.Update(id, prostorija);
-            return NoContent();
+            existingProstorija.Naziv = prostorija.Naziv;
+            existingProstorija.Sirina = prostorija.Sirina;
+            existingProstorija.Duzina = prostorija.Duzina;
+            existingProstorija.Sprat=prostorija.Sprat;
+            existingProstorija.Visina = prostorija.Visina;
+
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Prostorijas.ToListAsync());
         }
 
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var prostorija = prostorijaService.Get(id);
+            var prostorija = await _context.Prostorijas.FindAsync(id);
 
             if(prostorija == null)
             {
                 return NotFound($"Room with id:{id} not found");
             }
 
-            prostorijaService.Delete(prostorija.Id);
-
+            _context.Prostorijas.Remove(prostorija);
+            await _context.SaveChangesAsync();
             return Ok($"Room with id:{id} deleted");
            
         }
