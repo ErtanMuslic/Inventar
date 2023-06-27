@@ -9,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IProstorijaService, ProstorijaService>();
+
+
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContextPool<DataContext>(options =>
 {
