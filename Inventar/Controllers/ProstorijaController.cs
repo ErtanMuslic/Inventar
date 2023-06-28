@@ -12,11 +12,11 @@ namespace Inventar.Controllers
     public class ProstorijaController : ControllerBase
     {
         private readonly IProstorijaService _prostorijaService;
-
+        
 
         public ProstorijaController(IProstorijaService prostorijaService)
         {
-            _prostorijaService = prostorijaService;
+           _prostorijaService = prostorijaService;
         }
         
 
@@ -24,8 +24,9 @@ namespace Inventar.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var prostorije = await _prostorijaService.Get();
+            var prostorije = await _prostorijaService.Get(); //Add Status Code Errors
             return Ok(prostorije);
+            
             
         }
 
@@ -33,29 +34,20 @@ namespace Inventar.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var prostorija = await _prostorijaService.Get(id);
-
-            if(prostorija == null)
-            {
-                return NotFound($"Room with Id = {id} not found");
-            }
-
-            return Ok(prostorija);
+             return Ok(prostorija);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Prostorija prostorija)
-        { 
-            _prostorijaService.Create(prostorija);
-            return Ok(prostorija);
-            //_context.Add(prostorija);
-            //await _context.SaveChangesAsync();
-            //return Ok(await _context.Prostorijas.ToListAsync());
-            //return CreatedAtAction(nameof(Get),new {id = prostorija.Id},prostorija);
+        public async Task<IActionResult> Create([FromBody] Prostorija prostorija)
+        {
+                var create = await _prostorijaService.Create(prostorija);//Add Status Code Errors
+                return create;              
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Prostorija prostorija)
         {
+            
             try
             {
                 var update = await _prostorijaService.Update(prostorija);
@@ -71,17 +63,18 @@ namespace Inventar.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var prostorija = await _prostorijaService.Delete(id);
-            //var prostorija = await _prostorijaService.Get(id);
+                var prostorija = await _prostorijaService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
+            //var prostorija = await _context.Prostorijas.FindAsync(id);
 
-            if(prostorija == null)
+            if (prostorija == null)
             {
                 return NotFound($"Room with id:{id} not found");
             }
 
-            //_context.Prostorijas.Remove(prostorija);
-            //await _context.SaveChangesAsync();
-            return Ok($"Room with id:{id} deleted");
+              //_context.Prostorijas.Remove(prostorija);
+              //await _context.SaveChangesAsync();
+              return Ok($"Room with id:{id} deleted");
+
            
         }
 

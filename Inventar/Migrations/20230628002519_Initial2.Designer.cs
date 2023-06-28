@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventar.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230626213124_Initial")]
-    partial class Initial
+    [Migration("20230628002519_Initial2")]
+    partial class Initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

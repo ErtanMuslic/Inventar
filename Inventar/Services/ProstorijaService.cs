@@ -18,11 +18,11 @@ namespace Inventar.Services
         }
         
 
-        public async Task<Prostorija> Create(Prostorija prostorija)
+        public async Task<IActionResult> Create(Prostorija prostorija)
         {
             _context.Add(prostorija);
             await _context.SaveChangesAsync();
-            return prostorija;
+            return new OkObjectResult(prostorija);
             
         }
 
@@ -34,16 +34,21 @@ namespace Inventar.Services
             return id;
         }
 
-        public async Task<ActionResult<List<Prostorija>>> Get()
+        public async Task<IActionResult> Get()
         {
             var prostorije = await _context.Prostorijas.ToListAsync();
-            return prostorije;
+            
+            return new OkObjectResult(prostorije);
         }
 
-        public async  Task<ActionResult<Prostorija>> Get(Guid id)
+        public async  Task<IActionResult> Get(Guid id)
         {
             var prostorija = await _context.Prostorijas.FindAsync(id);
-            return prostorija;
+            if (prostorija == null)
+            {
+                return new BadRequestObjectResult("Error");
+            }
+            return new OkObjectResult(prostorija);
         }
 
         public async Task<IActionResult> Update(Prostorija prostorija)
