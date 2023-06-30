@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IProstorijaService, ProstorijaService>();
-builder.Services.AddScoped<IInventariService, InventariService>();
-builder.Services.AddScoped<IRadniciService, RadniciService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IWorkerService, WorkerService>();
 
 
 

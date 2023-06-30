@@ -8,13 +8,13 @@ namespace Inventar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RadnikController : Controller
+    public class WorkerController : Controller
     {
-        private readonly IRadniciService _radniciService;
+        private readonly IWorkerService _workerService;
 
-        public RadnikController(IRadniciService radniciService)
+        public WorkerController(IWorkerService workerService)
         {
-            _radniciService = radniciService;
+            _workerService = workerService;
         }
 
 
@@ -22,32 +22,32 @@ namespace Inventar.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var radnici = await _radniciService.Get();
-            return radnici;
+            var worker = await _workerService.Get();
+            return worker;
 
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var prostorija = await _radniciService.Get(id);
-            return Ok(prostorija);
+            var worker = await _workerService.GetById(id);
+            return Ok(worker);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Radnici radnik)
+        public async Task<IActionResult> Create([FromBody] Worker worker)
         {
-            var create = await _radniciService.Create(radnik);//Add Status Code Errors
+            var create = await _workerService.Create(worker);//Add Status Code Errors
             return Ok(create);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Radnici radnik)
+        public async Task<IActionResult> Put([FromBody] Worker worker)
         {
 
             try
             {
-                var update = await _radniciService.Update(radnik);
+                var update = await _workerService.Update(worker);
                 return update;
             }
             catch (Exception ex)
@@ -60,9 +60,9 @@ namespace Inventar.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var prostorija = await _radniciService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
+            var worker = await _workerService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
 
-            if (prostorija == null)
+            if (worker == null)
             {
                 return NotFound($"Room with id:{id} not found");
             }

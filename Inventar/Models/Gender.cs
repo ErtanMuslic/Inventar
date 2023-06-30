@@ -1,0 +1,8 @@
+﻿namespace Inventar.Models
+{
+    public enum Gender
+    {
+        Male,
+        Female,
+    }
+}

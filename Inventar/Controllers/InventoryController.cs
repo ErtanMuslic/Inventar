@@ -9,14 +9,14 @@ namespace Inventar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InventariController : ControllerBase
+    public class InventoryController : ControllerBase
     {
-        private readonly IInventariService _inventariService;
+        private readonly IInventoryService _inventoryService;
 
 
-        public InventariController(IInventariService inventariService)
+        public InventoryController(IInventoryService inventoryService)
         {
-            _inventariService = inventariService;
+            _inventoryService = inventoryService;
         }
 
 
@@ -24,8 +24,8 @@ namespace Inventar.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var inventari = await _inventariService.Get(); //Add Status Code Errors
-            return Ok(inventari);
+            var inventory = await _inventoryService.Get(); //Add Status Code Errors
+            return Ok(inventory);
 
 
         }
@@ -33,24 +33,24 @@ namespace Inventar.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var inventari = await _inventariService.Get(id);
-            return Ok(inventari);
+            var inventory = await _inventoryService.GetById(id);
+            return Ok(inventory);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Inventari inventar)
+        public async Task<IActionResult> Create([FromBody] Inventory inventar)
         {
-            var create = await _inventariService.Create(inventar);//Add Status Code Errors
+            var create = await _inventoryService.Create(inventar);//Add Status Code Errors
             return create;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Inventari inventar)
+        public async Task<IActionResult> Put([FromBody] Inventory inventar)
         {
 
             try
             {
-                var update = await _inventariService.Update(inventar);
+                var update = await _inventoryService.Update(inventar);
                 return update;
             }
             catch (Exception ex)
@@ -63,10 +63,10 @@ namespace Inventar.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var inventar = await _inventariService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
+            var inventory = await _inventoryService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
             //var prostorija = await _context.Prostorijas.FindAsync(id);
 
-            if (inventar == null)
+            if (inventory == null)
             {
                 return NotFound($"Inventar with id:{id} not found");
             }
