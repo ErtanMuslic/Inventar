@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProstorijaService, ProstorijaService>();
+builder.Services.AddScoped<IRadniciService, RadniciService>();
+
 
 
 

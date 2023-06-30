@@ -91,8 +91,9 @@ namespace Inventar.Migrations
 
             modelBuilder.Entity("Inventar.Models.Radnici", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Ime")
                         .IsRequired()
@@ -102,9 +103,8 @@ namespace Inventar.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Pol")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Pol")
+                        .HasColumnType("int");
 
                     b.Property<string>("Prezime")
                         .IsRequired()

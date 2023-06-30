@@ -21,7 +21,7 @@ namespace Inventar.Models
 
         public Guid IdRadnika { get; set; }
 
-        public ICollection<Inventari> Inventari { get; set; }
+        public ICollection<Inventari>? Inventari { get; set; }
 
         public Guid IdInventari { get; set; }
 

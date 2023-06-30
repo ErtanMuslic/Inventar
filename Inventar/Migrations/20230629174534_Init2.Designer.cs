@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventar.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230628002519_Initial2")]
-    partial class Initial2
+    [Migration("20230629174534_Init2")]
+    partial class Init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,8 +94,9 @@ namespace Inventar.Migrations
 
             modelBuilder.Entity("Inventar.Models.Radnici", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Ime")
                         .IsRequired()
@@ -105,9 +106,8 @@ namespace Inventar.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Pol")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Pol")
+                        .HasColumnType("int");
 
                     b.Property<string>("Prezime")
                         .IsRequired()
