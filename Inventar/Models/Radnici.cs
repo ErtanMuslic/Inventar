@@ -1,10 +1,8 @@
-﻿
-
-namespace Inventar.Models
+﻿namespace Inventar.Models
 {
     public class Radnici
     {
-        public string Id { get; set; } = String.Empty;
+        public Guid Id { get; set; }
 
 
         public string JMBG { get; set; } = String.Empty;
@@ -14,10 +12,11 @@ namespace Inventar.Models
 
         public string Prezime { get; set; } = String.Empty;
 
-        public string Pol { get;set; } = String.Empty;
+        public Pol Pol { get;set; }
 
         public string Sprema { get; set; } = String.Empty;
 
+        public Guid ProstorijaId { get; set; }
 
      }
 }

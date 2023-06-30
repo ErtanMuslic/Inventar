@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProstorijaService, ProstorijaService>();
 builder.Services.AddScoped<IInventariService, InventariService>();
+builder.Services.AddScoped<IRadniciService, RadniciService>();
+
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
