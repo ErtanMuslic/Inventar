@@ -26,10 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Middlewares\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

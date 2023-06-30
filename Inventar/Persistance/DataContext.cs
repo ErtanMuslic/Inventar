@@ -16,11 +16,11 @@ namespace Inventar.Persistance
            
         }
 
-        public DbSet<Inventari> Inventars { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
 
-        public DbSet<Radnici> Radnicis { get; set; }
+        public DbSet<Worker> Workers { get; set; }
 
-        public DbSet<Prostorija> Prostorijas { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
