@@ -11,15 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProstorijaService, ProstorijaService>();
+builder.Services.AddScoped<IInventariService, InventariService>();
 builder.Services.AddScoped<IRadniciService, RadniciService>();
-
 
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContextPool<DataContext>(options =>
 {
-    options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
+    _ = options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
