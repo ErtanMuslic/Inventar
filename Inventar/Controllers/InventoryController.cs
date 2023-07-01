@@ -1,6 +1,7 @@
 ﻿using Inventar.Models;
 using Inventar.Persistance;
 using Inventar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace Inventar.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
             var inventory = await _inventoryService.Get(); //Add Status Code Errors
