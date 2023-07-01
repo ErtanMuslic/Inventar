@@ -15,7 +15,7 @@ namespace Inventar.Controllers
     public class AuthController : ControllerBase
     {
         public static User user = new User();
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
       
 
         public AuthController(IConfiguration configuration) 
@@ -45,7 +45,7 @@ namespace Inventar.Controllers
 
             if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return BadRequest("Wron password.");
+                return BadRequest("Wrong password.");
             }
 
             string token = CreateToken(user);
@@ -62,7 +62,7 @@ namespace Inventar.Controllers
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
                     claims: claims,
@@ -85,7 +85,7 @@ namespace Inventar.Controllers
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new HMACSHA512(user.PasswordSalt))
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
