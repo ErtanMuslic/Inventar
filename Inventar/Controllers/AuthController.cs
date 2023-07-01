@@ -45,7 +45,7 @@ namespace Inventar.Controllers
 
             if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return BadRequest("Wron password.");
+                return BadRequest("Wrong password.");
             }
 
             string token = CreateToken(user);
