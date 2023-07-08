@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces.Base;
-using User.Models;
+using Inventar.Models;
 
 namespace Infrastructure.Interfaces
 {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories.Base;
-using User.Models;
-using User.Persistance;
 using Microsoft.EntityFrameworkCore;
+using Inventar.Models;
+using Inventar.Persistance;
 
 namespace Infrastructure.Repositories
 {

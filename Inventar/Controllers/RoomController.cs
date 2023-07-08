@@ -1,13 +1,13 @@
-﻿using Application.Query.Rooms;
-using User.Models;
-using User.Persistance;
-using User.Services;
+﻿using System.Data;
+using Application.Query.Rooms;
+using Inventar.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace User.Controllers
+namespace Inventar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

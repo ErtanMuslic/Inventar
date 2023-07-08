@@ -1,4 +1,4 @@
-﻿namespace User.DTOs
+﻿namespace Inventar.User.DTOs
 {
     public class UserDto
     {

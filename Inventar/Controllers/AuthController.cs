@@ -1,6 +1,6 @@
-﻿using User.DTOs;
-using User.Models;
-using User.Services;
+﻿using Inventar.Models;
+using Inventar.Services;
+using Inventar.User.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography; 
 
-namespace User.Controllers
+namespace Inventar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

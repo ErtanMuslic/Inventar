@@ -1,7 +1,7 @@
 ﻿using Application.Query.Inventories;
 using Infrastructure;
-using User.Models;
 using MediatR;
+using Inventar.Models;
 
 namespace API.Mediator.Inventories
 {
@@ -16,6 +16,7 @@ namespace API.Mediator.Inventories
         public async Task<Inventory> Handle(AddInventoryQuery request, CancellationToken cancellationToken)
         {
            var inventories = await _unitOfWork.Inventories.Add(request.Inventory);
+            _unitOfWork.Save();
             return inventories;
         }
     }
