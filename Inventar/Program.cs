@@ -1,6 +1,4 @@
-using User.Models;
-using User.Persistance;
-using User.Services;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +14,8 @@ using Infrastructure.Repositories.Base;
 using Infrastructure;
 using MediatR;
 using System.Reflection;
+using Inventar.Persistance;
+using Inventar.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

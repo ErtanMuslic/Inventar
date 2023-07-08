@@ -1,5 +1,5 @@
 ﻿
-namespace User.Models
+namespace Inventar.Models
 {
     public class Room
     {

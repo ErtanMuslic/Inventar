@@ -1,7 +1,7 @@
 ﻿using Application.Query.Rooms;
 using Infrastructure;
-using User.Models;
 using MediatR;
+using Inventar.Models;
 
 namespace API.Mediator.Rooms
 {

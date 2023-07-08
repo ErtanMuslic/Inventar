@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces;
-using User.Persistance;
+using Inventar.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Interfaces.Base;
 
@@ -17,16 +17,17 @@ namespace Infrastructure
         public IWorkerRepository Workers { get; }
         public IInventoryRepository Inventories { get; }
 
-        public IUserRepository Users { get; }
 
         public UnitOfWork(
             DataContext dbContext,
             IRoomRepository products,
-            IWorkerRepository workers)
+            IWorkerRepository workers,
+            IInventoryRepository inventories)
         {
             _dbContext = dbContext;
             Rooms = products;
             Workers = workers;
+            Inventories = inventories;
         }
 
         public void Dispose()

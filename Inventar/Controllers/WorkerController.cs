@@ -2,12 +2,11 @@
 using Application.Query.Workers;
 using Inventar.Models;
 using Inventar.Persistance;
-using Inventar.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace User.Controllers
+namespace Inventar.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

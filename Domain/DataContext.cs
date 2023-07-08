@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using User.Models;
+using Inventar.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace User.Persistance
+namespace Inventar.Persistance
 {
     public class DataContext : DbContext
     {

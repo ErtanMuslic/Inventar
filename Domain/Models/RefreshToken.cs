@@ -1,4 +1,4 @@
-﻿namespace User.Models
+﻿namespace Inventar.Models
 {
     public class RefreshToken
     {
