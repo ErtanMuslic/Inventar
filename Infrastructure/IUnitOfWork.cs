@@ -10,6 +10,7 @@ namespace Infrastructure
     public interface IUnitOfWork : IDisposable
     {
         IRoomRepository Rooms { get; }
+        IWorkerRepository Workers { get; }
         int Save();
         
     }

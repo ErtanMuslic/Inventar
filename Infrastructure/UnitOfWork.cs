@@ -13,11 +13,16 @@ namespace Infrastructure
     {
         private readonly DataContext _dbContext;
         public IRoomRepository Rooms { get; }
+        public IWorkerRepository Workers { get; }
 
-        public UnitOfWork(DataContext dbContext, IRoomRepository products)
+        public UnitOfWork(
+            DataContext dbContext,
+            IRoomRepository products,
+            IWorkerRepository workers)
         {
             _dbContext = dbContext;
             Rooms = products;
+            Workers = workers;
         }
 
         public void Dispose()
