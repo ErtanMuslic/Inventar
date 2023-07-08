@@ -1,6 +1,6 @@
-using Inventar.Models;
-using Inventar.Persistance;
-using Inventar.Services;
+using User.Models;
+using User.Persistance;
+using User.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHttpContextAccessor();

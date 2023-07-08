@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces;
-using Inventar.Persistance;
+using User.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
@@ -13,6 +13,9 @@ namespace Infrastructure
     {
         private readonly DataContext _dbContext;
         public IRoomRepository Rooms { get; }
+        public IInventoryRepository Inventories { get; }
+
+        public IUserRepository Users { get; }
 
         public UnitOfWork(DataContext dbContext, IRoomRepository products)
         {

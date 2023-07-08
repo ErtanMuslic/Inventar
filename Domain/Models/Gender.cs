@@ -1,4 +1,4 @@
-﻿namespace Inventar.Models
+﻿namespace User.Models
 {
     public enum Gender
     {

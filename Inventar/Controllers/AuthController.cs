@@ -1,6 +1,6 @@
-﻿using Inventar.DTOs;
-using Inventar.Models;
-using Inventar.Services;
+﻿using User.DTOs;
+using User.Models;
+using User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +10,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography; 
 
-namespace Inventar.Controllers
+namespace User.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        public static Models.User user = new Models.User();
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
 
@@ -36,7 +36,7 @@ namespace Inventar.Controllers
         }
 
         [HttpPost("register")]
-         public async Task<ActionResult<User>>Register(UserDto request)
+         public async Task<ActionResult<Models.User>>Register(UserDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -120,7 +120,7 @@ namespace Inventar.Controllers
         }
 
 
-        private string CreateToken(User user)
+        private string CreateToken(Models.User user)
         {
             List<Claim> claims = new List<Claim>
             {

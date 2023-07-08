@@ -1,10 +1,10 @@
-﻿using Inventar.Models;
-using Inventar.Persistance;
-using Inventar.Services;
+﻿using User.Models;
+using User.Persistance;
+using User.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventar.Controllers
+namespace User.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

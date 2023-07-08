@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using User.Models;
-using MediatR;
 
-namespace Application.Query.Rooms
+namespace Application.Query.Users
 {
-    public class GetAllRoomsQuery : IRequest<List<Room>>
+    internal class GetAllUsersQuery
     {
-
     }
 }

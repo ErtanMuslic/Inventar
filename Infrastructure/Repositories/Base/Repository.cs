@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces.Base;
-using Inventar.Persistance;
+using User.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Base

@@ -1,9 +1,9 @@
-﻿using Inventar.Models;
-using Inventar.Persistance;
+﻿using User.Models;
+using User.Persistance;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventar.Services
+namespace User.Services
 {
     public class WorkerService : IWorkerService
     {

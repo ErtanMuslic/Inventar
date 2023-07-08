@@ -1,4 +1,4 @@
-﻿using Inventar.Models;
+﻿using User.Models;
 using Application.Query.Rooms;
 using MediatR;
 using Infrastructure;

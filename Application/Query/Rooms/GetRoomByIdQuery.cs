@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Inventar.Models;
+using User.Models;
 using MediatR;
 
 namespace Application.Query.Rooms

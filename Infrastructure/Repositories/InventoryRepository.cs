@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories.Base;
-using Inventar.Models;
-using Inventar.Persistance;
+using User.Models;
+using User.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories

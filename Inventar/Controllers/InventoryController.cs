@@ -1,23 +1,25 @@
-﻿using Inventar.Models;
-using Inventar.Persistance;
-using Inventar.Services;
+﻿using Application.Query.Inventories;
+using User.Models;
+using User.Persistance;
+using User.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventar.Controllers
+namespace User.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class InventoryController : ControllerBase
     {
-        private readonly IInventoryService _inventoryService;
+        private readonly ISender _mediator;
 
 
-        public InventoryController(IInventoryService inventoryService)
+        public InventoryController(ISender mediator)
         {
-            _inventoryService = inventoryService;
+            _mediator = mediator;
         }
 
 
@@ -25,7 +27,7 @@ namespace Inventar.Controllers
         [HttpGet, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
-            var inventory = await _inventoryService.Get(); //Add Status Code Errors
+            var inventory = await _mediator.Send(new GetAllInventoriesQuery()); //Add Status Code Errors
             return Ok(inventory);
 
 
@@ -34,49 +36,40 @@ namespace Inventar.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var inventory = await _inventoryService.GetById(id);
+            var inventory = await _mediator.Send(new GetInventoryByIdQuery(id));
             return Ok(inventory);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Inventory inventar)
         {
-            var create = await _inventoryService.Create(inventar);//Add Status Code Errors
-            return create;
+            var create = await _mediator.Send(new AddInventoryQuery(inventar));//Add Status Code Errors
+            return create != null ? Created($"/inventory{create.Id}", create) : BadRequest();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Inventory inventar)
-        {
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Put([FromBody] Inventory inventar)
+        //{
 
-            try
-            {
-                var update = await _inventoryService.Update(inventar);
-                return update;
-            }
-            catch (Exception ex)
-            {
-                return NotFound($"Inventar not found");
-            }
-        }
+        //    try
+        //    {
+        //        var update = await _inventoryServic.Update(inventar);
+        //        return update;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return NotFound($"Inventar not found");
+        //    }
+        //}
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteInventory(Guid id)
         {
-            var inventory = await _inventoryService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
+            var inventory = await _mediator.Send(new DeleteInventoryQuery(id)); //Add Status Code Errors,Fix to Delete all id-s to delete a table
             //var prostorija = await _context.Prostorijas.FindAsync(id);
 
-            if (inventory == null)
-            {
-                return NotFound($"Inventar with id:{id} not found");
-            }
-
-            //_context.Prostorijas.Remove(prostorija);
-            //await _context.SaveChangesAsync();
-            return Ok($"Inventar with id:{id} deleted");
-
-
+           return inventory != null ? Ok(inventory) : BadRequest();
         }
 
 

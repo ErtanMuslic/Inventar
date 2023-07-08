@@ -1,8 +1,8 @@
-﻿using Inventar.Models;
+﻿using User.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Inventar.Services
+namespace User.Services
 {
     public interface IUserService
     {

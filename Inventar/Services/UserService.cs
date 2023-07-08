@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Inventar.Services
+namespace User.Services
 {
     public class UserService : IUserService
     {
