@@ -1,6 +1,8 @@
-﻿using Inventar.Models;
+﻿using Application.Query.Rooms;
+using Inventar.Models;
 using Inventar.Persistance;
 using Inventar.Services;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,70 +13,75 @@ namespace Inventar.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private readonly IRoomService _roomService;
-        
-
-        public RoomController(IRoomService roomService)
+        private readonly ISender _mediator;
+        public RoomController(ISender mediator)
         {
-            _roomService = roomService;
+            _mediator = mediator;
         }
-        
 
-
+    
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetProductList()
         {
-            var room = await _roomService.Get(); //Add Status Code Errors
-            return Ok(room);
-            
-            
+            var rooms = await _mediator.Send(new GetAllRoomsQuery());
+            return Ok(rooms);
+           
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        
+        [HttpGet("{roomId}")]
+        public async Task<IActionResult> GetProductById(Guid roomId)
         {
-            var room = await _roomService.GetById(id);
-             return Ok(room);
+            var room = await _mediator.Send(new GetRoomByIdQuery(roomId));
+            return room != null ? Ok(room) : NotFound();
+
         }
 
+       
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Room room)
+        public async Task<IActionResult> CreateProduct(Room roomDetails)
         {
-                var create = await _roomService.Create(room);//Add Status Code Errors
-                return create;              
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Room room)
-        {
-            
-            try
-            {
-                var update = await _roomService.Update(room);
-                return update;
-            }
-            catch (Exception ex)
-            {
-                return NotFound($"Room not found");
-            }
-        }
-
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-                var room = await _roomService.Delete(id); //Add Status Code Errors,Fix to Delete all id-s to delete a table
-
-            if (room == null)
-            {
-                return NotFound($"Room with id:{id} not found");
-            }
-
-              return Ok($"Room with id:{id} deleted");
-
+            var room = await _mediator.Send(new AddRoomQuery(roomDetails));
+            return room != null ? Created($"/room/{room.Id}", room) : BadRequest();
            
         }
 
        
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateProduct(Room roomDetails)
+        //{
+        //    if (roomDetails != null)
+        //    {
+        //        var isCreated = await _roomService.UpdateProduct(roomDetails);
+        //        if (isCreated)
+        //        {
+        //            return Ok(isCreated);
+        //        }
+        //        return BadRequest();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+        
+        [HttpDelete("{roomId}")]
+        public async Task<IActionResult> DeleteProduct(Guid roomId)
+        {
+            var room = await _mediator.Send(new DeleteRoomQuery(roomId));
+            return room != null ? Ok(room) : NotFound();
+            //var isCreated = await _roomService.DeleteProduct(roomId);
+
+            //if (isCreated)
+            //{
+            //    return Ok(isCreated);
+            //}
+            //else
+            //{
+            //    return BadRequest();
+            //}
+        }
     }
 }
+
