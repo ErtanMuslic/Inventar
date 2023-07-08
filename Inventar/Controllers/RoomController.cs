@@ -21,7 +21,7 @@ namespace User.Controllers
 
     
         [HttpGet]
-        public async Task<IActionResult> GetProductList()
+        public async Task<IActionResult> GetRoomList()
         {
             var rooms = await _mediator.Send(new GetAllRoomsQuery());
             return Ok(rooms);
@@ -30,7 +30,7 @@ namespace User.Controllers
 
         
         [HttpGet("{roomId}")]
-        public async Task<IActionResult> GetProductById(Guid roomId)
+        public async Task<IActionResult> GetRoomById(Guid roomId)
         {
             var room = await _mediator.Send(new GetRoomByIdQuery(roomId));
             return room != null ? Ok(room) : NotFound();
@@ -39,7 +39,7 @@ namespace User.Controllers
 
        
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(Room roomDetails)
+        public async Task<IActionResult> CreateRoom(Room roomDetails)
         {
             var room = await _mediator.Send(new AddRoomQuery(roomDetails));
             return room != null ? Created($"/room/{room.Id}", room) : BadRequest();
@@ -67,20 +67,11 @@ namespace User.Controllers
 
         
         [HttpDelete("{roomId}")]
-        public async Task<IActionResult> DeleteProduct(Guid roomId)
+        public async Task<IActionResult> DeleteRoom(Guid roomId)
         {
             var room = await _mediator.Send(new DeleteRoomQuery(roomId));
             return room != null ? Ok(room) : NotFound();
-            //var isCreated = await _roomService.DeleteProduct(roomId);
-
-            //if (isCreated)
-            //{
-            //    return Ok(isCreated);
-            //}
-            //else
-            //{
-            //    return BadRequest();
-            //}
+            
         }
     }
 }
