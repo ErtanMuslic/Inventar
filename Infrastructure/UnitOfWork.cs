@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Infrastructure.Interfaces;
 using User.Persistance;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Interfaces.Base;
 
 namespace Infrastructure
 {
