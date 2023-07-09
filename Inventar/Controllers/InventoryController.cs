@@ -22,11 +22,11 @@ namespace Inventar.Controllers
             _mediator = mediator;
         }
 
-        private readonly IMapper _mapper;
-        public InventoryController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
+        //private readonly IMapper _mapper;
+        //public InventoryController(IMapper mapper)
+        //{
+           // _mapper = mapper;
+       // }
 
 
         [HttpGet]

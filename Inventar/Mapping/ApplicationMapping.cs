@@ -8,7 +8,7 @@ namespace API.Mapping
     {
         public ApplicationMapping() 
         {
-            CreateMap<InventoryDto, Inventory>();
+           CreateMap<Inventory, InventoryDto>();
         }
     }
 }
