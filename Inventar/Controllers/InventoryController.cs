@@ -1,4 +1,6 @@
-﻿using Application.Query.Inventories;
+﻿using API.DTOs;
+using Application.Query.Inventories;
+using AutoMapper;
 using Inventar.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +22,11 @@ namespace Inventar.Controllers
             _mediator = mediator;
         }
 
+        private readonly IMapper _mapper;
+        public InventoryController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
 
         [HttpGet]

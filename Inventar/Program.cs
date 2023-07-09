@@ -30,6 +30,7 @@ builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
