@@ -8,7 +8,11 @@ namespace API.Mapping
     {
         public ApplicationMapping() 
         {
-           CreateMap<Inventory, InventoryDto>();
+            CreateMap<Inventory, InventoryDto>();
+            CreateMap<InventoryDto, Inventory>()
+                .ForMember(dest => dest.Id,
+                opt => opt.MapFrom(src => Guid.NewGuid()));
+
         }
     }
 }

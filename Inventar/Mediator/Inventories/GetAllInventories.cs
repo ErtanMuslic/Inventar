@@ -1,23 +1,28 @@
-﻿using Application.Query.Inventories;
-using Infrastructure;
+﻿using Infrastructure;
 using MediatR;
 using Inventar.Models;
+using API.DTOs;
+using AutoMapper;
 
 namespace API.Mediator.Inventories
 {
-    public class GetAllInventories : IRequestHandler<GetAllInventoriesQuery, List<Inventory>>
+    public record GetAllInventoriesQuery() : IRequest<IEnumerable<InventoryDto>>;
+    public class GetAllInventories : IRequestHandler<GetAllInventoriesQuery, IEnumerable<InventoryDto>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public GetAllInventories(IUnitOfWork unitOfWork)
+        public GetAllInventories(IUnitOfWork unitOfWork , IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public async Task<List<Inventory>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<InventoryDto>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
         {
             var invenotries = await _unitOfWork.Inventories.GetAll();
-                return invenotries;
+            var res = invenotries.Select(inv => _mapper.Map<InventoryDto>(inv));
+            return res;
         }
     }
 }

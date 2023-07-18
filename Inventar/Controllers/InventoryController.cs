@@ -1,4 +1,6 @@
-﻿using API.DTOs;
+﻿using System.Linq;
+using API.DTOs;
+using API.Mediator.Inventories;
 using Application.Query.Inventories;
 using AutoMapper;
 using Inventar.Models;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace Inventar.Controllers
 {
@@ -15,47 +18,47 @@ namespace Inventar.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly ISender _mediator;
+        private readonly IMapper _mapper;
 
 
-        public InventoryController(ISender mediator)
+        public InventoryController(ISender mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
-        //private readonly IMapper _mapper;
-        //public InventoryController(IMapper mapper)
-        //{
-           // _mapper = mapper;
-       // }
+        
 
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var inventory = await _mediator.Send(new GetAllInventoriesQuery()); //Add Status Code Errors
+            var inventory = await _mediator.Send(new API.Mediator.Inventories.GetAllInventoriesQuery()); //Add Status Code Errors
             return Ok(inventory);
-
 
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var inventory = await _mediator.Send(new GetInventoryByIdQuery(id));
-            return Ok(inventory);
+            var inventory = await _mediator.Send(new API.Mediator.Inventories.GetInventoryByIdQuery(id));
+            return Ok(_mapper.Map<InventoryDto>(inventory));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Inventory inventar)
+        public async Task<IActionResult> Create([FromBody] InventoryDto inventar)
         {
-            var create = await _mediator.Send(new AddInventoryQuery(inventar));//Add Status Code Errors
-            return create != null ? Created($"/inventory{create.Id}", create) : BadRequest();
+
+            var create = await _mediator.Send(new AddInventoryHandler(inventar));//Add Status Code Errors
+
+            return create != null ? Created($"/inventory{create.Name}", create) : BadRequest();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Inventory inventar)
         {
             var update = await _mediator.Send(new UpdateInventoryQuery(inventar));
+
             return update != null ? Ok(update) : BadRequest();
            
         }

@@ -13,5 +13,7 @@
         public string Model { get; set; } = String.Empty;
 
         public int Price { get; set; }
+
+        public Guid RoomId { get; set; }
     }
 }

@@ -1,30 +1,31 @@
-﻿using Application.Query.Inventories;
-using Infrastructure;
+﻿using Infrastructure;
 using MediatR;
 using Inventar.Models;
 using AutoMapper;
 using API.DTOs;
-using TechTalk.SpecFlow.CommonModels;
 
 namespace API.Mediator.Inventories
 {
-  
-    public class AddInventory : IRequestHandler<AddInventoryQuery, Inventory>
+    public record AddInventoryHandler(InventoryDto inv_dto) : IRequest<InventoryDto>;
+    public class AddInventory : IRequestHandler<AddInventoryHandler, InventoryDto>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
 
-        public AddInventory(IUnitOfWork unitOfWork)
+        public AddInventory(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         
         }
-        public async Task<Inventory> Handle(AddInventoryQuery request, CancellationToken cancellationToken)
+        public async Task<InventoryDto> Handle(AddInventoryHandler request, CancellationToken cancellationToken)
         {
-           var inventories = await _unitOfWork.Inventories.Add(request.Inventory);
+            var newInventory = _mapper.Map<Inventory>(request.inv_dto);
+           await _unitOfWork.Inventories.Add(newInventory);
             _unitOfWork.Save();
-            return inventories;
-
+            var inventory = _mapper.Map<InventoryDto>(newInventory);
+            return inventory;
         }
     }
 }
