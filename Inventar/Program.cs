@@ -16,6 +16,9 @@ using MediatR;
 using System.Reflection;
 using Inventar.Persistance;
 using Inventar.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using TechTalk.SpecFlow.Assist;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +68,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+var provider = builder.Services.BuildServiceProvider();
+var configuration = provider.GetRequiredService<IConfiguration>();
+
+builder.Services.AddCors(options =>
+{
+    var frontednURL = configuration.GetValue<string>("frontendURL");
+
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(frontednURL).AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -76,6 +92,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 
