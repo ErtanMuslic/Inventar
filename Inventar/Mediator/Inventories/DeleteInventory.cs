@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Mediator.Inventories
 {
-    public record DeleteInventoryQuery(Guid Id): IRequest<Inventory>;
-    public class DeleteInventory : IRequestHandler<DeleteInventoryQuery, Inventory>
+    public record DeleteInventoryHandler(Guid Id): IRequest<Inventory>;
+    public class DeleteInventory : IRequestHandler<DeleteInventoryHandler, Inventory>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ namespace API.Mediator.Inventories
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<Inventory> Handle(DeleteInventoryQuery request, CancellationToken cancellationToken)
+        public async Task<Inventory> Handle(DeleteInventoryHandler request, CancellationToken cancellationToken)
         {
             var result = await _unitOfWork.Inventories.GetById(request.Id);
             if (result == null)

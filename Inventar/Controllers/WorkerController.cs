@@ -1,10 +1,8 @@
-﻿using API.Mediator.Workers;
-using Application.Query.Workers;
-using Inventar.Models;
-using Inventar.Persistance;
+﻿using API.DTOs;
+using API.Mediator.Workers;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Inventar.Controllers
 {
@@ -13,60 +11,54 @@ namespace Inventar.Controllers
     public class WorkerController : Controller
     {
         private readonly ISender _mediator;
+        private readonly IMapper _mapper;
+        private readonly ILogger<WorkerController> _logger;
 
-        public WorkerController(ISender mediator)
+        public WorkerController(ISender mediator, IMapper mapper, ILogger<WorkerController> logger)
         {
             _mediator = mediator;
+            _mapper = mapper;
+            _logger = logger;
         }
-
 
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var worker = await _mediator.Send(new GetAllWorkersQuery());
-            return Ok(worker);
+            _logger.LogInformation("Get All Workers");
 
+            var worker = await _mediator.Send(new GetAllWorkersHandler());
+            return worker != null ? Ok(worker) : BadRequest();
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var worker = await _mediator.Send(new GetWorkerByIdQuery(id));
-            return worker != null ? Ok(worker) : NotFound();
+            _logger.LogInformation("Get Worker By Id");
+
+            var worker = await _mediator.Send(new GetWorkerByIdHandler(id));
+            return worker != null ? Ok(_mapper.Map<WorkerDto>(worker)) : BadRequest();
         }
+
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Worker worker)
+        public async Task<IActionResult> Create([FromBody] WorkerDto worker)
         {
-            var create = await _mediator.Send(new AddWorkerQuery(worker));
-            return create != null ? Created($"/room/{create.Id}", create) : BadRequest();
+            _logger.LogInformation("Hire Worker");
+
+            var create = await _mediator.Send(new AddWorkerHandler(worker));
+            return create != null ? Created($"/room/{create.Name}", create) : BadRequest();
         }
-
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put([FromBody] Worker worker)
-        //{
-
-        //    try
-        //    {
-        //        var update = await _workerService.Update(worker);
-        //        return update;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NotFound($"Room not found");
-        //    }
-        //}
 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var worker = await _mediator.Send(new DeleteWorkerQuery(id)); //Add Status Code Errors,Fix to Delete all id-s to delete a table
-            return worker != null ? Ok(worker) : NotFound();
-            
+            _logger.LogInformation("Fire Worker");
 
-
+            var worker = await _mediator.Send(new DeleteWorkerHandler(id)); 
+            return worker != null ? Ok(_mapper.Map<WorkerDto>(worker)) : NotFound();
         }
     }
 }

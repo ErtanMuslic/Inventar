@@ -5,7 +5,8 @@ using Inventar.Models;
 
 namespace API.Mediator.Rooms
 {
-    public class GetRoomById : IRequestHandler<GetRoomByIdQuery, Room>
+    public record GetRoomByIdHandler(Guid Id):IRequest<Room>;
+    public class GetRoomById : IRequestHandler<GetRoomByIdHandler, Room>
     {
         private readonly IUnitOfWork _unitOfWork;
         public GetRoomById(IUnitOfWork unitOfWork)
@@ -13,10 +14,15 @@ namespace API.Mediator.Rooms
             _unitOfWork = unitOfWork;
         }
 
-        public  async Task<Room> Handle(GetRoomByIdQuery request, CancellationToken cancellationToken)
+        public  async Task<Room> Handle(GetRoomByIdHandler request, CancellationToken cancellationToken)
         {
             var room = await _unitOfWork.Rooms.GetById(request.Id);
+            if (room == null)
+            {
+                throw new Exception("Room not found");
+            }
             return room;
+            
         }
     }
 }

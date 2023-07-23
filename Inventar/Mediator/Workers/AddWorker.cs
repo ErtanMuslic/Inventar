@@ -1,23 +1,30 @@
-﻿using Application.Query.Workers;
+﻿using API.DTOs;
+using Application.Query.Workers;
+using AutoMapper;
 using Infrastructure;
 using Inventar.Models;
 using MediatR;
 
 namespace API.Mediator.Workers
 {
-    public class AddWorker : IRequestHandler<AddWorkerQuery, Worker>
+    public record AddWorkerHandler(WorkerDto workerDto): IRequest<WorkerDto>;
+    public class AddWorker : IRequestHandler<AddWorkerHandler, WorkerDto>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public AddWorker(IUnitOfWork unitOfWork)
+        public AddWorker(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public async Task<Worker> Handle(AddWorkerQuery request, CancellationToken cancellationToken)
+        public async Task<WorkerDto> Handle(AddWorkerHandler request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Workers.Add(request.Worker);
+            var newWorker = _mapper.Map<Worker>(request.workerDto);
+            var result = await _unitOfWork.Workers.Add(newWorker);
             _unitOfWork.Save();
-            return result;
+            return _mapper.Map<WorkerDto>(newWorker);
+            
         }
     }
 }

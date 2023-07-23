@@ -5,8 +5,8 @@ using MediatR;
 
 namespace API.Mediator.Inventories
 {
-    public record UpdateInevntoryQuery(Inventory Inventory): IRequest<Inventory>;
-    public class UpdateInventory : IRequestHandler<UpdateInventoryQuery,Inventory>
+    public record UpdateInevntoryHandler(Inventory Inventory): IRequest<Inventory>;
+    public class UpdateInventory : IRequestHandler<UpdateInevntoryHandler, Inventory>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -15,7 +15,7 @@ namespace API.Mediator.Inventories
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Inventory> Handle(UpdateInventoryQuery request, CancellationToken cancellationToken)
+        public async Task<Inventory> Handle(UpdateInevntoryHandler request, CancellationToken cancellationToken)
         {
             var inventory = await _unitOfWork.Inventories.GetById(request.Inventory.Id);
             if (inventory == null)

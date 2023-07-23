@@ -1,5 +1,8 @@
 ﻿using System.Data;
+using API.DTOs;
+using API.Mediator.Rooms;
 using Application.Query.Rooms;
+using AutoMapper;
 using Inventar.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,64 +17,53 @@ namespace Inventar.Controllers
     public class RoomController : ControllerBase
     {
         private readonly ISender _mediator;
-        public RoomController(ISender mediator)
+        private readonly IMapper _mapper;
+        private readonly ILogger<RoomController> _logger;
+        public RoomController(ISender mediator,IMapper mapper,ILogger<RoomController> logger)
         {
             _mediator = mediator;
+            _mapper = mapper;
+            _logger = logger;
         }
 
     
         [HttpGet]
         public async Task<IActionResult> GetRoomList()
         {
-            var rooms = await _mediator.Send(new GetAllRoomsQuery());
-            return Ok(rooms);
-           
+            _logger.LogInformation("Get All Rooms");
+
+            var rooms = await _mediator.Send(new GetAllRoomsHandler());
+            return rooms != null ? Ok(rooms) : BadRequest();
         }
 
         
         [HttpGet("{roomId}")]
         public async Task<IActionResult> GetRoomById(Guid roomId)
         {
-            var room = await _mediator.Send(new GetRoomByIdQuery(roomId));
-            return room != null ? Ok(room) : NotFound();
+            _logger.LogInformation("Get Room By Id");
 
+            var room = await _mediator.Send(new GetRoomByIdHandler(roomId));
+            return room != null ? Ok(_mapper.Map<RoomDto>(room)) : BadRequest();
         }
 
        
         [HttpPost]
-        public async Task<IActionResult> CreateRoom(Room roomDetails)
+        public async Task<IActionResult> CreateRoom(RoomDto roomDetails)
         {
-            var room = await _mediator.Send(new AddRoomQuery(roomDetails));
-            return room != null ? Created($"/room/{room.Id}", room) : BadRequest();
-           
+            _logger.LogInformation("Create Room");
+
+            var room = await _mediator.Send(new AddRoomHandler(roomDetails));
+            return room != null ? Created($"/room/{room.Name}", room) : BadRequest();
         }
+      
 
-       
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateProduct(Room roomDetails)
-        //{
-        //    if (roomDetails != null)
-        //    {
-        //        var isCreated = await _roomService.UpdateProduct(roomDetails);
-        //        if (isCreated)
-        //        {
-        //            return Ok(isCreated);
-        //        }
-        //        return BadRequest();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
-        
         [HttpDelete("{roomId}")]
         public async Task<IActionResult> DeleteRoom(Guid roomId)
         {
-            var room = await _mediator.Send(new DeleteRoomQuery(roomId));
-            return room != null ? Ok(room) : NotFound();
-            
+            _logger.LogInformation("Delete Room");
+
+            var room = await _mediator.Send(new DeleteRoomHandler(roomId));
+            return room != null ? Ok(_mapper.Map<RoomDto>(room)) : BadRequest();
         }
     }
 }

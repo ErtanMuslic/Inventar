@@ -5,7 +5,8 @@ using MediatR;
 
 namespace API.Mediator.Workers
 {
-    public class DeleteWorker : IRequestHandler<DeleteWorkerQuery, Worker>
+    public record DeleteWorkerHandler(Guid Id) : IRequest<Worker>;
+    public class DeleteWorker : IRequestHandler<DeleteWorkerHandler, Worker>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -13,12 +14,12 @@ namespace API.Mediator.Workers
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<Worker> Handle(DeleteWorkerQuery request, CancellationToken cancellationToken)
+        public async Task<Worker> Handle(DeleteWorkerHandler request, CancellationToken cancellationToken)
         {
             var worker = await _unitOfWork.Workers.GetById(request.Id);
             if (worker == null)
             {
-
+                throw new Exception("Worker not found");
             }
             _unitOfWork.Workers.Delete(worker);
             _unitOfWork.Save();

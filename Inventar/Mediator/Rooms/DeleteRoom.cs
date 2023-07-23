@@ -5,7 +5,8 @@ using Inventar.Models;
 
 namespace API.Mediator.Rooms
 {
-    public class DeleteRoom : IRequestHandler<DeleteRoomQuery, Room>
+    public record DeleteRoomHandler(Guid Id) : IRequest<Room>;
+    public class DeleteRoom : IRequestHandler<DeleteRoomHandler, Room>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -15,12 +16,12 @@ namespace API.Mediator.Rooms
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Room> Handle(DeleteRoomQuery request, CancellationToken cancellationToken)
+        public async Task<Room> Handle(DeleteRoomHandler request, CancellationToken cancellationToken)
         {
             var result = await _unitOfWork.Rooms.GetById(request.Id);
             if(result == null)
             {
-
+                throw new Exception("Room not Found");
             }
              _unitOfWork.Rooms.Delete(result);
             _unitOfWork.Save();

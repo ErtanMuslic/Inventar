@@ -6,8 +6,8 @@ using AutoMapper;
 
 namespace API.Mediator.Inventories
 {
-    public record GetAllInventoriesQuery() : IRequest<IEnumerable<InventoryDto>>;
-    public class GetAllInventories : IRequestHandler<GetAllInventoriesQuery, IEnumerable<InventoryDto>>
+    public record GetAllInventoriesHandler() : IRequest<IEnumerable<InventoryDto>>;
+    public class GetAllInventories : IRequestHandler<GetAllInventoriesHandler, IEnumerable<InventoryDto>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace API.Mediator.Inventories
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<InventoryDto>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<InventoryDto>> Handle(GetAllInventoriesHandler request, CancellationToken cancellationToken)
         {
             var inventories = await _unitOfWork.Inventories.GetAll();
             var result = inventories.Select(inv => _mapper.Map<InventoryDto>(inv));

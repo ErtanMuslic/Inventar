@@ -1,14 +1,9 @@
-﻿using System.Linq;
-using API.DTOs;
+﻿using API.DTOs;
 using API.Mediator.Inventories;
 using AutoMapper;
 using Inventar.Models;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Nest;
 
 namespace Inventar.Controllers
 {
@@ -34,7 +29,7 @@ namespace Inventar.Controllers
         {
             _logger.LogInformation("Get all Inventories");
 
-            var inventory = await _mediator.Send(new GetAllInventoriesQuery());
+            var inventory = await _mediator.Send(new GetAllInventoriesHandler());
             return inventory != null ? Ok(inventory) : BadRequest();
         }
 
@@ -44,7 +39,7 @@ namespace Inventar.Controllers
         {
             _logger.LogInformation("Get Inventory by Id");
 
-             var inventory = await _mediator.Send(new GetInventoryByIdQuery(id));
+             var inventory = await _mediator.Send(new GetInventoryByIdHandler(id));
             return inventory != null ? Ok(_mapper.Map<InventoryDto>(inventory)) : BadRequest();        
         }
 
@@ -64,7 +59,7 @@ namespace Inventar.Controllers
         {
             _logger.LogInformation("Update Inventory");
 
-            var update = await _mediator.Send(new UpdateInevntoryQuery(inventar));
+            var update = await _mediator.Send(new UpdateInevntoryHandler(inventar));
             return update != null ? Ok(_mapper.Map<InventoryDto>(update)) : BadRequest();     
         }
 
@@ -74,7 +69,7 @@ namespace Inventar.Controllers
         {
             _logger.LogInformation("Delete Inventory");
 
-            var inventory = await _mediator.Send(new DeleteInventoryQuery(id)); 
+            var inventory = await _mediator.Send(new DeleteInventoryHandler(id)); 
            return inventory != null ? Ok(_mapper.Map<InventoryDto>(inventory)) : BadRequest();
         }
     }
