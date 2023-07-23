@@ -2,9 +2,12 @@
 using Infrastructure;
 using MediatR;
 using Inventar.Models;
+using Inventar.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Mediator.Inventories
 {
+    public record DeleteInventoryQuery(Guid Id): IRequest<Inventory>;
     public class DeleteInventory : IRequestHandler<DeleteInventoryQuery, Inventory>
     {
 
@@ -19,7 +22,7 @@ namespace API.Mediator.Inventories
             var result = await _unitOfWork.Inventories.GetById(request.Id);
             if (result == null)
             {
-
+                throw new Exception("Inventory not found");
             }
             _unitOfWork.Inventories.Delete(result);
             _unitOfWork.Save();

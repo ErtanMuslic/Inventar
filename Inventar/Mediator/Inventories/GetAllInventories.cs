@@ -20,9 +20,9 @@ namespace API.Mediator.Inventories
         }
         public async Task<IEnumerable<InventoryDto>> Handle(GetAllInventoriesQuery request, CancellationToken cancellationToken)
         {
-            var invenotries = await _unitOfWork.Inventories.GetAll();
-            var res = invenotries.Select(inv => _mapper.Map<InventoryDto>(inv));
-            return res;
+            var inventories = await _unitOfWork.Inventories.GetAll();
+            var result = inventories.Select(inv => _mapper.Map<InventoryDto>(inv));
+            return result;
         }
     }
 }

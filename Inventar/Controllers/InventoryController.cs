@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using API.DTOs;
 using API.Mediator.Inventories;
-using Application.Query.Inventories;
 using AutoMapper;
 using Inventar.Models;
 using MediatR;
@@ -19,59 +18,64 @@ namespace Inventar.Controllers
     {
         private readonly ISender _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<InventoryController> _logger;
 
 
-        public InventoryController(ISender mediator, IMapper mapper)
+        public InventoryController(ISender mediator, IMapper mapper, ILogger<InventoryController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
-
-        
 
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var inventory = await _mediator.Send(new API.Mediator.Inventories.GetAllInventoriesQuery()); //Add Status Code Errors
-            return Ok(inventory);
+            _logger.LogInformation("Get all Inventories");
 
+            var inventory = await _mediator.Send(new GetAllInventoriesQuery());
+            return inventory != null ? Ok(inventory) : BadRequest();
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var inventory = await _mediator.Send(new API.Mediator.Inventories.GetInventoryByIdQuery(id));
-            return Ok(_mapper.Map<InventoryDto>(inventory));
+            _logger.LogInformation("Get Inventory by Id");
+
+             var inventory = await _mediator.Send(new GetInventoryByIdQuery(id));
+            return inventory != null ? Ok(_mapper.Map<InventoryDto>(inventory)) : BadRequest();        
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] InventoryDto inventar)
         {
+            _logger.LogInformation("Create Inventory");
 
-            var create = await _mediator.Send(new AddInventoryHandler(inventar));//Add Status Code Errors
-
+            var create = await _mediator.Send(new AddInventoryHandler(inventar));
             return create != null ? Created($"/inventory{create.Name}", create) : BadRequest();
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Inventory inventar)
         {
-            var update = await _mediator.Send(new UpdateInventoryQuery(inventar));
+            _logger.LogInformation("Update Inventory");
 
-            return update != null ? Ok(update) : BadRequest();
-           
+            var update = await _mediator.Send(new UpdateInevntoryQuery(inventar));
+            return update != null ? Ok(_mapper.Map<InventoryDto>(update)) : BadRequest();     
         }
 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInventory(Guid id)
         {
-            var inventory = await _mediator.Send(new DeleteInventoryQuery(id)); //Add Status Code Errors,Fix to Delete all id-s to delete a table
+            _logger.LogInformation("Delete Inventory");
 
-           return inventory != null ? Ok(inventory) : BadRequest();
+            var inventory = await _mediator.Send(new DeleteInventoryQuery(id)); 
+           return inventory != null ? Ok(_mapper.Map<InventoryDto>(inventory)) : BadRequest();
         }
-
-
     }
 }

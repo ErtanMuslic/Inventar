@@ -73,11 +73,11 @@ var configuration = provider.GetRequiredService<IConfiguration>();
 
 builder.Services.AddCors(options =>
 {
-    var frontednURL = configuration.GetValue<string>("frontendURL");
+    var frontendURL = configuration.GetValue<string>("frontendURL");
 
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins(frontednURL).AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
     });
 });
 

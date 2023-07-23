@@ -5,6 +5,7 @@ using MediatR;
 
 namespace API.Mediator.Inventories
 {
+    public record UpdateInevntoryQuery(Inventory Inventory): IRequest<Inventory>;
     public class UpdateInventory : IRequestHandler<UpdateInventoryQuery,Inventory>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -19,8 +20,9 @@ namespace API.Mediator.Inventories
             var inventory = await _unitOfWork.Inventories.GetById(request.Inventory.Id);
             if (inventory == null)
             {
-
+                throw new Exception("Inventory not found");
             }
+
             inventory.Name = request.Inventory.Name;
             inventory.SerialNumber = request.Inventory.SerialNumber;
             inventory.Mark = request.Inventory.Mark;

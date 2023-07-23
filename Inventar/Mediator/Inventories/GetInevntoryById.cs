@@ -1,9 +1,7 @@
-﻿using Application.Query.Inventories;
-using Infrastructure;
+﻿using Infrastructure;
 using MediatR;
 using Inventar.Models;
-using API.DTOs;
-using AutoMapper;
+using Inventar.Persistance;
 
 namespace API.Mediator.Inventories
 {
@@ -14,13 +12,16 @@ namespace API.Mediator.Inventories
         public GetInevntoryById(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-
         }
         public async Task<Inventory> Handle(GetInventoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var inventories = await _unitOfWork.Inventories.GetById(request.Id);
+            var inventory = await _unitOfWork.Inventories.GetById(request.Id);
 
-            return inventories;
+            if (inventory == null)
+            {
+                throw new Exception("Inventory not found");
+            }
+            return inventory;
         }
     }
 }
