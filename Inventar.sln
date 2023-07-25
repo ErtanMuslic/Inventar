@@ -5,11 +5,11 @@ VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Inventar\API.csproj", "{B930BF35-7E80-4B6F-88D7-015B3B00C86D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{FD176ACB-8166-48C0-9045-6909625E3D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{FD176ACB-8166-48C0-9045-6909625E3D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Access", "Domain\Data Access.csproj", "{77FD5D8A-D4EB-4174-8F56-1AA790BE2190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access", "Domain\Data Access.csproj", "{77FD5D8A-D4EB-4174-8F56-1AA790BE2190}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{CBC58621-CA05-40B8-B226-91A93DC839E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{CBC58621-CA05-40B8-B226-91A93DC839E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
