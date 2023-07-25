@@ -112,6 +112,9 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
+app.UseMiddleware<InputValidationMiddleware>();
+
+
 app.UseAuthentication();
 
 app.UseAuthorization();
