@@ -19,9 +19,15 @@ using Inventar.Services;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using TechTalk.SpecFlow.Assist;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpLogging;
+using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+});
 
 builder.Services.AddControllers();
 
@@ -41,6 +47,8 @@ builder.Services.AddDbContextPool<DataContext>(options =>
 {
     _ = options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -53,8 +61,11 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey
 
     });
+
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -84,6 +95,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseHttpLogging();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -94,6 +107,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseMiddleware<LoggingMiddleware>();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthentication();
 
