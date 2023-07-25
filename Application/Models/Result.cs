@@ -12,5 +12,7 @@ namespace Application.Models
         public string Message { get; set; }
         public object Data { get; set; }
         public Result() { }
+
+
     }
 }
