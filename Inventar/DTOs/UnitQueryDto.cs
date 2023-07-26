@@ -1,9 +1,5 @@
 ﻿using Application.Models;
 
-
-
-
-
 namespace API.DTOs
 {
     public class UnitQueryDto : IQueryObj

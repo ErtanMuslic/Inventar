@@ -112,7 +112,7 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseMiddleware<InputValidationMiddleware>();
+//app.UseMiddleware<InputValidationMiddleware>();
 
 
 app.UseAuthentication();

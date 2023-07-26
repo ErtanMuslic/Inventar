@@ -15,13 +15,11 @@ namespace Inventar.Models
 
         public int Height { get; set; }
 
-        public string Boss { get; set; }
-
-        public ICollection<Worker> Workers { get; set; } 
+        public string Boss { get; set; } = String.Empty;
 
         public Guid WorkerId { get; set; }
 
-        public ICollection<Inventory>? Inventory { get; set; }
+        public Inventory? Inventory { get; set; }
 
         public Guid InventoryId { get; set; }
 

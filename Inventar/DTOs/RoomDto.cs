@@ -14,10 +14,8 @@ namespace API.DTOs
 
         public int Height { get; set; }
 
-        public string? Boss { get; set; }
+        public string Boss { get; set; } = String.Empty;
 
-        public ICollection<WorkerDto>? Workers { get; set; }
-
-        public ICollection<InventoryDto>? Inventory { get; set; } 
+        public InventoryDto? Inventory { get; set; } 
     }
 }
