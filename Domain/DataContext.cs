@@ -23,7 +23,25 @@ namespace Inventar.Persistance
         public DbSet<Room> Rooms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Worker)
+                .WithMany()
+                .HasForeignKey(r => r.workerId)
+                .IsRequired();
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Inventory)
+                .WithOne(r => r.Room)
+                .HasForeignKey<Inventory>(i => i.RoomId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Inventory)
+                .WithOne(i => i.Room)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            base.OnModelCreating(modelBuilder);
 
           
     }

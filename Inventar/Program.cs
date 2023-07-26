@@ -110,7 +110,7 @@ app.UseCors();
 
 app.UseMiddleware<LoggingMiddleware>();
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+//app.UseMiddleware<ErrorHandlingMiddleware>();
 
 //app.UseMiddleware<InputValidationMiddleware>();
 

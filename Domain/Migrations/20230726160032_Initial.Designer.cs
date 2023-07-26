@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Inventar.Migrations
+namespace Data_Access.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230630092145_Initial")]
+    [Migration("20230726160032_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,6 +43,10 @@ namespace Inventar.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("RoomId")
                         .HasColumnType("char(36)");
 
@@ -51,7 +55,8 @@ namespace Inventar.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("RoomId")
+                        .IsUnique();
 
                     b.ToTable("Inventory");
                 });
@@ -72,9 +77,6 @@ namespace Inventar.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("char(36)");
-
                     b.Property<int>("Lenght")
                         .HasColumnType("int");
 
@@ -85,10 +87,12 @@ namespace Inventar.Migrations
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("WorkerId")
+                    b.Property<Guid>("workerId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("workerId");
 
                     b.ToTable("Rooms");
                 });
@@ -114,43 +118,40 @@ namespace Inventar.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
-
                     b.ToTable("Workers");
                 });
 
             modelBuilder.Entity("Inventar.Models.Inventory", b =>
                 {
-                    b.HasOne("Inventar.Models.Room", null)
-                        .WithMany("Inventory")
-                        .HasForeignKey("RoomId")
+                    b.HasOne("Inventar.Models.Room", "room")
+                        .WithOne("Inventory")
+                        .HasForeignKey("Inventar.Models.Inventory", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("room");
                 });
 
-            modelBuilder.Entity("Inventar.Models.Worker", b =>
+            modelBuilder.Entity("Inventar.Models.Room", b =>
                 {
-                    b.HasOne("Inventar.Models.Room", null)
-                        .WithMany("Workers")
-                        .HasForeignKey("RoomId")
+                    b.HasOne("Inventar.Models.Worker", "Worker")
+                        .WithMany()
+                        .HasForeignKey("workerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Worker");
                 });
 
             modelBuilder.Entity("Inventar.Models.Room", b =>
                 {
                     b.Navigation("Inventory");
-
-                    b.Navigation("Workers");
                 });
 #pragma warning restore 612, 618
         }
