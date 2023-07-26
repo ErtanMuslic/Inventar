@@ -17,11 +17,11 @@ namespace Inventar.Models
 
         public string Boss { get; set; } = String.Empty;
 
-        public Guid WorkerId { get; set; }
-
         public Inventory? Inventory { get; set; }
 
-        public Guid InventoryId { get; set; }
+        public Worker? Worker { get; set; }
+
+        public Guid workerId { get; set; }
 
 
     }

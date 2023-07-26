@@ -16,7 +16,5 @@
 
         public string Qualification { get; set; } = String.Empty;
 
-        public Guid RoomId { get; set; }
-
      }
 }
