@@ -19,7 +19,7 @@ namespace API.Middleware
                 var password = requestBody["password"];
                 var email = requestBody["email"];
 
-                if (!IsValidUsername(username) || !IsValidPassword(password) )
+                if (!IsValidUsername(username) || !IsValidPassword(password) || !IsValidEmail(email))
                 {
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     await context.Response.WriteAsync("Invalid input.");
@@ -33,12 +33,12 @@ namespace API.Middleware
                 var usernameOrEmail = requestBody["usernameOrEmail"];
                 var password = requestBody["password"];
 
-                //if (string.IsNullOrEmpty(usernameOrEmail) || string.IsNullOrEmpty(password))
-                //{
-                //    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                //    await context.Response.WriteAsync("Invalid input.");
-                //    return;
-                //}
+                if (string.IsNullOrEmpty(usernameOrEmail) || string.IsNullOrEmpty(password))
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    await context.Response.WriteAsync("Invalid input.");
+                    return;
+                }
             }
 
             await _next(context);
@@ -49,8 +49,7 @@ namespace API.Middleware
             // Use a regular expression to check if the username contains only alphanumeric characters
             // and is between 4 and 20 characters long.
             string pattern = "^[a-zA-Z0-9]{4,20}$";
-            //return Regex.IsMatch(username, pattern);
-            return true;
+            return Regex.IsMatch(username, pattern);
         }
 
         private bool IsValidPassword(string password)
@@ -58,8 +57,7 @@ namespace API.Middleware
             // Use a regular expression to check if the password is at least 8 characters long,
             // containing at least one uppercase letter, one lowercase letter, and one digit.
             string pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
-            //return Regex.IsMatch(password, pattern);
-            return true;
+            return Regex.IsMatch(password, pattern);
         }
 
         private bool IsValidEmail(string email)
