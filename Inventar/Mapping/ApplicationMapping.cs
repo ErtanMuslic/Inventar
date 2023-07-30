@@ -16,7 +16,7 @@ namespace API.Mapping
             CreateMap<WorkerDto, Worker>()
                 .ForMember(dest => dest.Id,
                 opt => opt.MapFrom(src => Guid.NewGuid()));
-            CreateMap<Room,RoomDto>();
+            //CreateMap<Room,RoomDto>();
             CreateMap<RoomDto, Room>()
                 .ForMember(dest => dest.Id,
                 opt => opt.MapFrom(src => Guid.NewGuid()));

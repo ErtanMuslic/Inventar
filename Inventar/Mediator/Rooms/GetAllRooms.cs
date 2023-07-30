@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Mediator.Rooms
 {
-    public record GetAllRoomsHandler() : IRequest<IEnumerable<RoomDto>>;
-    public class GetAllRooms : IRequestHandler<GetAllRoomsHandler, IEnumerable<RoomDto>>
+    public record GetAllRoomsHandler() : IRequest<IEnumerable<Room>>;
+    public class GetAllRooms : IRequestHandler<GetAllRoomsHandler, IEnumerable<Room>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -24,13 +24,13 @@ namespace API.Mediator.Rooms
         }
 
 
-        public async Task<IEnumerable<RoomDto>> Handle(GetAllRoomsHandler request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Room>> Handle(GetAllRoomsHandler request, CancellationToken cancellationToken)
         {
             var rooms = await _context.Rooms
                 .Include(c => c.Inventory)
                 .Include(c => c.Worker)
                 .ToListAsync();
-            return rooms.Select(room => _mapper.Map<RoomDto>(room));
+            return rooms.Select(room => _mapper.Map<Room>(room));
         }
     }
 }
