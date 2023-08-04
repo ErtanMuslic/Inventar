@@ -1,4 +1,6 @@
-﻿namespace Inventar.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Inventar.Models
 {
     public class Worker
     {
@@ -12,6 +14,7 @@
 
         public string Surname { get; set; } = String.Empty;
 
+        [EnumDataType(typeof(Gender))]
         public Gender Gender { get;set; }
 
         public string Qualification { get; set; } = String.Empty;

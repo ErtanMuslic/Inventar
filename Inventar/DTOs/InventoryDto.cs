@@ -12,7 +12,7 @@
 
         public string Model { get; set; } = String.Empty;
 
-        public string Quantity { get; set; } = String.Empty;
+        public int Quantity { get; set; }
         public int Price { get; set; }
 
         public Guid RoomId { get; set; }

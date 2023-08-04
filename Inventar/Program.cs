@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
 using API.Middleware;
 using System.Text.Json.Serialization;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +32,10 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers().AddJsonOptions(x => {
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
