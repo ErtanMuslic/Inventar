@@ -25,9 +25,9 @@ namespace Inventar.Persistance
     {
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Worker)
-                .WithMany()
-                .HasForeignKey(r => r.workerId)
-                .IsRequired();
+                .WithOne()
+                .HasForeignKey<Room>(r => r.workerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Inventory)

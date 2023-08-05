@@ -21,7 +21,7 @@ namespace Inventar.Models
 
         public Worker? Worker { get; set; }
 
-        public Guid workerId { get; set; }
+        public Guid? workerId { get; set; }
 
 
     }

@@ -6,7 +6,7 @@ namespace API.Mapping
 {
     public class ApplicationMapping : Profile
     {
-        public ApplicationMapping() 
+        public ApplicationMapping()
         {
             CreateMap<Inventory, InventoryDto>();
             CreateMap<InventoryDto, Inventory>()
@@ -16,10 +16,12 @@ namespace API.Mapping
             CreateMap<WorkerDto, Worker>()
                 .ForMember(dest => dest.Id,
                 opt => opt.MapFrom(src => Guid.NewGuid()));
-            CreateMap<Room,RoomDto>();
+            CreateMap<Room, RoomDto>();
             CreateMap<RoomDto, Room>()
                 .ForMember(dest => dest.Id,
-                opt => opt.MapFrom(src => Guid.NewGuid()));
+                opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.Boss,
+                opt => opt.MapFrom(src => $"{src.Worker.Name} {src.Worker.Surname}"));
                 //.ForMember(dest => dest.Workers,
                 //opt => opt.MapFrom(src => new List<WorkerDto>()))
                 //.ForMember(dest => dest.Inventory,
