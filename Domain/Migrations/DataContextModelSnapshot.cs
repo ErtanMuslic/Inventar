@@ -55,8 +55,7 @@ namespace Data_Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId")
-                        .IsUnique();
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Inventory");
                 });
@@ -131,9 +130,10 @@ namespace Data_Access.Migrations
             modelBuilder.Entity("Inventar.Models.Inventory", b =>
                 {
                     b.HasOne("Inventar.Models.Room", "Room")
-                        .WithOne("Inventory")
-                        .HasForeignKey("Inventar.Models.Inventory", "RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Inventory")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Room");
                 });

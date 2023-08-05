@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230804164138_Init3")]
-    partial class Init3
+    [Migration("20230805234118_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,8 +58,7 @@ namespace Data_Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId")
-                        .IsUnique();
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Inventory");
                 });
@@ -90,12 +89,13 @@ namespace Data_Access.Migrations
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("workerId")
+                    b.Property<Guid?>("workerId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("workerId");
+                    b.HasIndex("workerId")
+                        .IsUnique();
 
                     b.ToTable("Rooms");
                 });
@@ -133,9 +133,10 @@ namespace Data_Access.Migrations
             modelBuilder.Entity("Inventar.Models.Inventory", b =>
                 {
                     b.HasOne("Inventar.Models.Room", "Room")
-                        .WithOne("Inventory")
-                        .HasForeignKey("Inventar.Models.Inventory", "RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Inventory")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Room");
                 });
@@ -143,10 +144,9 @@ namespace Data_Access.Migrations
             modelBuilder.Entity("Inventar.Models.Room", b =>
                 {
                     b.HasOne("Inventar.Models.Worker", "Worker")
-                        .WithMany()
-                        .HasForeignKey("workerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne()
+                        .HasForeignKey("Inventar.Models.Room", "workerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Worker");
                 });

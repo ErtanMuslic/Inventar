@@ -16,7 +16,7 @@ namespace API.DTOs
 
         public string Boss { get; set; } = String.Empty;
 
-        public InventoryDto? Inventory { get; set; } 
+        public ICollection<InventoryDto>? Inventory { get; set; } 
 
         public WorkerDto? Worker { get; set; }
     }

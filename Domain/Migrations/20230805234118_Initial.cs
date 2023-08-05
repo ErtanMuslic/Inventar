@@ -48,7 +48,7 @@ namespace Data_Access.Migrations
                     Height = table.Column<int>(type: "int", nullable: false),
                     Boss = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    workerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    workerId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -58,7 +58,7 @@ namespace Data_Access.Migrations
                         column: x => x.workerId,
                         principalTable: "Workers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -74,9 +74,10 @@ namespace Data_Access.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Model = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Quantity = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RoomId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
@@ -94,13 +95,13 @@ namespace Data_Access.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Inventory_RoomId",
                 table: "Inventory",
-                column: "RoomId",
-                unique: true);
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_workerId",
                 table: "Rooms",
-                column: "workerId");
+                column: "workerId",
+                unique: true);
         }
 
         /// <inheritdoc />

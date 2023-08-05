@@ -29,16 +29,22 @@ namespace Inventar.Persistance
                 .HasForeignKey<Room>(r => r.workerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Room>()
-                .HasOne(r => r.Inventory)
-                .WithOne(r => r.Room)
-                .HasForeignKey<Inventory>(i => i.RoomId)
-                .IsRequired(false);
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.Room)
+                .WithMany(r => r.Inventory)
+                .HasForeignKey(i => i.RoomId)
+                .IsRequired();
 
-            modelBuilder.Entity<Room>()
-                .HasOne(r => r.Inventory)
-                .WithOne(i => i.Room)
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Room>()
+            //    .HasOne(r => r.Inventory)
+            //    .WithOne(r => r.Room)
+            //    .HasForeignKey<Inventory>(i => i.RoomId)
+            //    .IsRequired(false);
+
+            //modelBuilder.Entity<Room>()
+            //    .HasOne(r => r.Inventory)
+            //    .WithOne(i => i.Room)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
 
             base.OnModelCreating(modelBuilder);

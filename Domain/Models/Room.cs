@@ -17,7 +17,7 @@ namespace Inventar.Models
 
         public string Boss { get; set; } = String.Empty;
 
-        public Inventory? Inventory { get; set; }
+        public ICollection<Inventory>? Inventory { get; set; }
 
         public Worker? Worker { get; set; }
 
