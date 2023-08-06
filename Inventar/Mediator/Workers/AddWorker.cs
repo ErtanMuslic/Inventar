@@ -20,6 +20,7 @@ namespace API.Mediator.Workers
         }
         public async Task<WorkerDto> Handle(AddWorkerHandler request, CancellationToken cancellationToken)
         {
+            request.workerDto.Qualification = "Worker";
             var newWorker = _mapper.Map<Worker>(request.workerDto);
             var result = await _unitOfWork.Workers.Add(newWorker);
             _unitOfWork.Save();

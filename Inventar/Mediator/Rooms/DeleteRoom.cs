@@ -32,7 +32,8 @@ namespace API.Mediator.Rooms
                 throw new Exception("Room not Found");
             }
 
-             _unitOfWork.Rooms.Delete(result);
+            result.Worker.Qualification = "Worker";
+            _unitOfWork.Rooms.Delete(result);
             _unitOfWork.Save();
             return result;
         }

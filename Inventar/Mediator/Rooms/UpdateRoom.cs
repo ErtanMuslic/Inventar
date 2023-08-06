@@ -21,6 +21,7 @@ namespace API.Mediator.Rooms
         public async Task<Room> Handle(UpdateRoomHandler request, CancellationToken cancellationToken)
         {
             var room = await _unitOfWork.Rooms.GetById(request.Id);
+            var worker = await _unitOfWork.Workers.GetById(request.boss.WorkerId);
 
             if (room == null)
             {
@@ -28,6 +29,7 @@ namespace API.Mediator.Rooms
             }
 
             room.workerId = request.boss.WorkerId;
+            worker.Qualification = "Boss";
             _unitOfWork.Save();
             return room;
         }
