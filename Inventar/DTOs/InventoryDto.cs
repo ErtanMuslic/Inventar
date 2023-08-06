@@ -18,6 +18,6 @@
 
         public string ImageUrl { get; set; }
 
-        public Guid RoomId { get; set; }
+        public Guid? RoomId { get; set; }
     }
 }

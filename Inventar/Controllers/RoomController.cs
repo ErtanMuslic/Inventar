@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using API.DTOs;
+using API.Mediator.Inventories;
 using API.Mediator.Rooms;
 using Application.Query.Rooms;
 using AutoMapper;
@@ -43,7 +44,7 @@ namespace Inventar.Controllers
             _logger.LogInformation("Get Room By Id");
 
             var room = await _mediator.Send(new GetRoomByIdHandler(roomId));
-            return room != null ? Ok(_mapper.Map<RoomDto>(room)) : BadRequest();
+            return room != null ? Ok(room) : BadRequest();
         }
 
        
@@ -55,7 +56,17 @@ namespace Inventar.Controllers
             var room = await _mediator.Send(new AddRoomHandler(roomDetails));
             return room != null ? Created($"/room/{room.Name}", room) : BadRequest();
         }
-      
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id ,UpdateRoomBoss boss)
+        {
+            _logger.LogInformation("Update Room");
+
+            var update = await _mediator.Send(new UpdateRoomHandler(id,boss));
+            return update != null ? Ok(update) : BadRequest();
+        }
+
 
         [HttpDelete("{roomId}")]
         public async Task<IActionResult> DeleteRoom(Guid roomId)

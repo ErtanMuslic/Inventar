@@ -33,7 +33,7 @@ namespace Inventar.Persistance
                 .HasOne(i => i.Room)
                 .WithMany(r => r.Inventory)
                 .HasForeignKey(i => i.RoomId)
-                .IsRequired();
+                .IsRequired(false);
 
             //modelBuilder.Entity<Room>()
             //    .HasOne(r => r.Inventory)

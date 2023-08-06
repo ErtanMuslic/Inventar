@@ -22,7 +22,7 @@ namespace Inventar.Models
         public string ImageUrl { get; set; }
 
         public Room Room { get; set; }
-        public Guid RoomId { get; set; }
+        public Guid? RoomId { get; set; }
 
     }
 }

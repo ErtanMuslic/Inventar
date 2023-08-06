@@ -57,7 +57,7 @@ namespace Data_Access.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Inventory");
+                    b.ToTable("Inventory", (string)null);
                 });
 
             modelBuilder.Entity("Inventar.Models.Room", b =>
@@ -94,7 +94,7 @@ namespace Data_Access.Migrations
                     b.HasIndex("workerId")
                         .IsUnique();
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Inventar.Models.Worker", b =>
@@ -124,7 +124,7 @@ namespace Data_Access.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workers");
+                    b.ToTable("Workers", (string)null);
                 });
 
             modelBuilder.Entity("Inventar.Models.Inventory", b =>
