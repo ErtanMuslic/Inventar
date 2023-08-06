@@ -33,6 +33,7 @@ namespace Inventar.Persistance
                 .HasOne(i => i.Room)
                 .WithMany(r => r.Inventory)
                 .HasForeignKey(i => i.RoomId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(false);
 
             //modelBuilder.Entity<Room>()

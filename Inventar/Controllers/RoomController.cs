@@ -58,7 +58,7 @@ namespace Inventar.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/worker")]
         public async Task<IActionResult> Put(Guid id ,UpdateRoomBoss boss)
         {
             _logger.LogInformation("Update Room");
