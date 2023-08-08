@@ -7,8 +7,8 @@ using MediatR;
 
 namespace API.Mediator.Workers
 {
-    public record GetAllWorkersHandler() : IRequest<IEnumerable<WorkerDto>>;
-    public class GetAllWorkers : IRequestHandler<GetAllWorkersHandler, IEnumerable<WorkerDto>>
+    public record GetAllWorkersHandler() : IRequest<IEnumerable<Worker>>;
+    public class GetAllWorkers : IRequestHandler<GetAllWorkersHandler, IEnumerable<Worker>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,11 +19,11 @@ namespace API.Mediator.Workers
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<WorkerDto>> Handle(GetAllWorkersHandler request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Worker>> Handle(GetAllWorkersHandler request, CancellationToken cancellationToken)
         {
             var worker = await _unitOfWork.Workers.GetAll();
-            var result = worker.Select(w => _mapper.Map<WorkerDto>(w));
-            return result;
+            //var result = worker.Select(w => _mapper.Map<WorkerDto>(w));
+            return worker;
         }
     }
 }

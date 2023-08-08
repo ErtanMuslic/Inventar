@@ -29,7 +29,9 @@ namespace API.Mediator.Rooms
             }
 
             room.workerId = request.boss.WorkerId;
+            room.Boss = $"{worker.Name} {worker.Surname}";
             worker.Qualification = "Boss";
+           
             _unitOfWork.Save();
             return room;
         }
