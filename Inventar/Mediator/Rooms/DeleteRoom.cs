@@ -31,8 +31,10 @@ namespace API.Mediator.Rooms
             {
                 throw new Exception("Room not Found");
             }
-
-            result.Worker.Qualification = "Worker";
+            if(result.Worker!= null)
+            {
+                result.Worker.Qualification = "Worker";
+            }
             _unitOfWork.Rooms.Delete(result);
             _unitOfWork.Save();
             return result;
